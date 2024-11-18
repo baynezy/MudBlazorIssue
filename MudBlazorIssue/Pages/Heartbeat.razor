@@ -1,0 +1,85 @@
+﻿@page "/issue"
+
+<MudContainer MaxWidth="MaxWidth.Medium">
+    <MudText
+        Typo="Typo.h4">Configure Heartbeat
+    </MudText>
+</MudContainer>
+<MudPaper Class="px-4 pb-2 mt-5 rounded-lg">
+    <MudForm @ref="_form"
+             Validation="@(AddHeartbeatSettingViewModelValidator.ValidateValue)"
+             Model="@AddHeartbeatSettingViewModel"
+             @bind-Errors="@_errors">
+        <MudGrid>
+            @if (HasGeneralErrors())
+            {
+                <MudItem xs="12">
+                    <MudAlert Severity="Severity.Error"
+                              Variant="Variant.Filled"
+                              Class="mb-4">
+                        There was a problem with your submission
+                        <ul>
+                            @foreach (var error in _generalErrors)
+                            {
+                                <li>@error.ErrorMessage</li>
+                            }
+                        </ul>
+                    </MudAlert>
+                </MudItem>
+            }
+
+            <MudItem xs="12">
+                <MudSwitch T="bool"
+                           @bind-Value="AddHeartbeatSettingViewModel.IsEnabled"
+                           Label="Enabled"
+                           Color="Color.Primary"/>
+            </MudItem>
+            <MudItem xs="12">
+                <FrequencySelector
+                    ForFrequency="() => AddHeartbeatSettingViewModel.Frequency.Value"
+                    ForTimeUnit="() => AddHeartbeatSettingViewModel.Frequency.TimeUnit"
+                    Disabled="@(!AddHeartbeatSettingViewModel.IsEnabled)"
+                    @bind-Frequency="@AddHeartbeatSettingViewModel.Frequency.Value"
+                    @bind-TimeUnit="@AddHeartbeatSettingViewModel.Frequency.TimeUnit"/>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudText Typo="Typo.h5">Pester</MudText>
+                @if (AddHeartbeatSettingViewModel.Pester.Intervals.Count > 0)
+                {
+                    for (var i = 0; i < AddHeartbeatSettingViewModel.Pester.Intervals.Count; i++)
+                    {
+                        var localCount = i;
+                        <FrequencySelector
+                            ForFrequency="() => AddHeartbeatSettingViewModel.Pester.Intervals[localCount].Value"
+                            ForTimeUnit="() => AddHeartbeatSettingViewModel.Pester.Intervals[localCount].TimeUnit"
+                            Disabled="@(!AddHeartbeatSettingViewModel.IsEnabled)"
+                            @bind-Frequency="@AddHeartbeatSettingViewModel.Pester.Intervals[localCount].Value"
+                            @bind-TimeUnit="@AddHeartbeatSettingViewModel.Pester.Intervals[localCount].TimeUnit"/>
+                    }
+                }
+
+                <MudButton
+                    Disabled="@(!AddHeartbeatSettingViewModel.IsEnabled)"
+                    StartIcon="@Icons.Material.Filled.AddCircle"
+                    Color="AddPesterButtonColor"
+                    Variant="Variant.Filled"
+                    Class="rounded-lg flex-initial"
+                    OnClick="@(() => HandleAddPester())"
+                >@_addPesterButtonLabel</MudButton>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudButton
+                    StartIcon="@Icons.Material.Filled.AddCircle"
+                    Disabled="IsSaving"
+                    Color="SubmitButtonColor"
+                    Variant="Variant.Filled"
+                    Class="rounded-lg flex-initial"
+                    OnClick="@(() => HandleSubmit())">
+                    @_submitButtonLabel
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </MudForm>
+</MudPaper>
