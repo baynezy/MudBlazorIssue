@@ -47,15 +47,16 @@
                 <MudText Typo="Typo.h5">Pester</MudText>
                 @if (AddHeartbeatSettingViewModel.Pester.Intervals.Count > 0)
                 {
-                    for (var i = 0; i < AddHeartbeatSettingViewModel.Pester.Intervals.Count; i++)
+                    var frequencyCount = 0;
+                    foreach (var frequencyModel in AddHeartbeatSettingViewModel.Pester.Intervals)
                     {
-                        var localCount = i;
                         <FrequencySelector
-                            ForFrequency="() => AddHeartbeatSettingViewModel.Pester.Intervals[localCount].Value"
-                            ForTimeUnit="() => AddHeartbeatSettingViewModel.Pester.Intervals[localCount].TimeUnit"
+                            @key="@($"pester_{frequencyCount++}")"
+                            ForFrequency="() => frequencyModel.Value"
+                            ForTimeUnit="() => frequencyModel.TimeUnit"
                             Disabled="@(!AddHeartbeatSettingViewModel.IsEnabled)"
-                            @bind-Frequency="@AddHeartbeatSettingViewModel.Pester.Intervals[localCount].Value"
-                            @bind-TimeUnit="@AddHeartbeatSettingViewModel.Pester.Intervals[localCount].TimeUnit"/>
+                            @bind-Frequency="@frequencyModel.Value"
+                            @bind-TimeUnit="@frequencyModel.TimeUnit"/>
                     }
                 }
 
