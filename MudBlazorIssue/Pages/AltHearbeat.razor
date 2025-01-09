@@ -1,0 +1,42 @@
+﻿@page "/issue-2"
+@using MudBlazorIssue.Validators
+
+<MudContainer MaxWidth="MaxWidth.Medium">
+    <MudText
+        Typo="Typo.h4">Configure Heartbeat
+    </MudText>
+</MudContainer>
+<MudPaper Class="px-4 pb-2 mt-5 rounded-lg">
+    <EditForm Model="@AddHeartbeatSettingViewModel" OnValidSubmit="FormSubmitted" OnInvalidSubmit="FormInvalid">
+        <FluentValidationValidator ValidatorType="typeof(AddHeartbeatSettingViewModelValidator)" />
+        <ValidationSummary />
+        <MudGrid>
+            <MudItem xs="12">
+                <label for="IsEnabled">Enabled?</label>
+                <InputCheckbox @bind-Value="AddHeartbeatSettingViewModel.IsEnabled" id="IsEnabled" Label="Enabled"/>
+            </MudItem>
+        </MudGrid>
+        <MudItem xs="12">
+            <label for="FrequencyValue">@_frequencyLabel</label>
+            <InputNumber @bind-Value="AddHeartbeatSettingViewModel.Frequency.Value" id="FrequencyValue"/>
+            <ValidationMessage For="@(() => AddHeartbeatSettingViewModel.Frequency.Value)" />
+
+            <InputSelect @bind-Value="AddHeartbeatSettingViewModel.Frequency.TimeUnit" @bind-Value:after="TimeUnitChanged">
+                @foreach (var timeUnit in Model.TimeUnit.List)
+                {
+                    <option value="@timeUnit.Value">@timeUnit.Name</option>
+                }
+            </InputSelect>
+        </MudItem>
+
+        <MudItem xs="12">
+            <MudButton
+                StartIcon="@Icons.Material.Filled.AddCircle"
+                Variant="Variant.Filled"
+                Class="rounded-lg flex-initial"
+                ButtonType="ButtonType.Submit">
+                Submit
+            </MudButton>
+        </MudItem>
+    </EditForm>
+</MudPaper>

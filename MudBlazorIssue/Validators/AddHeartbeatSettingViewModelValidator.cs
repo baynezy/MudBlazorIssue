@@ -7,12 +7,6 @@ public class AddHeartbeatSettingViewModelValidator : BlazorFormValidator<AddHear
 {
     public AddHeartbeatSettingViewModelValidator(IValidator<FrequencyViewModel> frequencyViewModelValidator)
     {
-        RuleFor(x => x.ProfileId)
-            .NotNull()
-            .WithMessage("ProfileId is required.")
-            .Must(BeValidGuid)
-            .WithMessage("Invalid ProfileId.");
-        
         When(x => x.IsEnabled, () =>
         {
             RuleFor(x => x.Frequency)
@@ -21,10 +15,5 @@ public class AddHeartbeatSettingViewModelValidator : BlazorFormValidator<AddHear
             RuleForEach(x => x.Pester.Intervals)
                 .SetValidator(frequencyViewModelValidator);
         });
-        
-            
-        
     }
-
-    private static bool BeValidGuid(Guid? guid) => guid != Guid.Empty;
 }

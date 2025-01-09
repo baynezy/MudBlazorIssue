@@ -19,7 +19,9 @@ public partial class Heartbeat : ComponentBase
     protected readonly AddHeartbeatSettingViewModel AddHeartbeatSettingViewModel = new();
     private bool IsSaving;
     
-    private bool HasGeneralErrors() => _generalErrors.Count > 0;private void HandleAddPester()
+    private bool HasGeneralErrors() => _generalErrors.Count > 0;
+    
+    private void HandleAddPester()
     {
         AddHeartbeatSettingViewModel.Pester.Intervals.Add(new FrequencyViewModel());
     }
