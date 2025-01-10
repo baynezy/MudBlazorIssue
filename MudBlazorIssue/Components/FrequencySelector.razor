@@ -1,19 +1,22 @@
 ﻿<div class="d-flex flex-row align-baseline">
     <MudNumericField T="int"
+                     Value="@Frequency"
+                     ValueChanged="FrequencyChanged"
                      Label="@_frequencyLabel"
-                     For="@ForFrequency"
+                     For="@FrequencyExpression"
                      Disabled="@Disabled"
                      Class="mr-10"
-                     ValueChanged="UpdateFrequency"/>
+                     />
 
     <MudSelect T="int"
+               Value="@TimeUnit"
+               ValueChanged="UpdateTimeUnit"
+               For="@TimeUnitExpression"
                Label="Time Unit:"
-               For="@ForTimeUnit"
                Variant="Variant.Outlined"
                Disabled="@Disabled"
                Margin="Margin.Dense"
                AnchorOrigin="Origin.BottomCenter"
-               ValueChanged="UpdateTimeUnit"
                Class="ml-10">
         @foreach (var timeUnit in Model.TimeUnit.List)
         {

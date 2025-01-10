@@ -36,8 +36,6 @@
             </MudItem>
             <MudItem xs="12">
                 <FrequencySelector
-                    ForFrequency="() => AddHeartbeatSettingViewModel.Frequency.Value"
-                    ForTimeUnit="() => AddHeartbeatSettingViewModel.Frequency.TimeUnit"
                     Disabled="@(!AddHeartbeatSettingViewModel.IsEnabled)"
                     @bind-Frequency="@AddHeartbeatSettingViewModel.Frequency.Value"
                     @bind-TimeUnit="@AddHeartbeatSettingViewModel.Frequency.TimeUnit"/>
@@ -47,13 +45,9 @@
                 <MudText Typo="Typo.h5">Pester</MudText>
                 @if (AddHeartbeatSettingViewModel.Pester.Intervals.Count > 0)
                 {
-                    var frequencyCount = 0;
                     foreach (var frequencyModel in AddHeartbeatSettingViewModel.Pester.Intervals)
                     {
                         <FrequencySelector
-                            @key="@($"pester_{frequencyCount++}")"
-                            ForFrequency="() => frequencyModel.Value"
-                            ForTimeUnit="() => frequencyModel.TimeUnit"
                             Disabled="@(!AddHeartbeatSettingViewModel.IsEnabled)"
                             @bind-Frequency="@frequencyModel.Value"
                             @bind-TimeUnit="@frequencyModel.TimeUnit"/>
