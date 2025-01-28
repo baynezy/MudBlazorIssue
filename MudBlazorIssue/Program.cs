@@ -14,6 +14,7 @@ builder.Services.AddScoped(sp => new HttpClient {BaseAddress = new Uri(builder.H
 builder.Services.AddMudServices();
 
 builder.Services.AddTransient<IValidator<FrequencyViewModel>, FrequencyViewModelValidator>();
+builder.Services.AddTransient<FrequencyViewModelValidator>();
 builder.Services.AddTransient<AddHeartbeatSettingViewModelValidator>();
 
 await builder.Build().RunAsync();

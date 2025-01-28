@@ -3,7 +3,7 @@ using MudBlazorIssue.Model;
 
 namespace MudBlazorIssue.Validators;
 
-public class FrequencyViewModelValidator : AbstractValidator<FrequencyViewModel>
+public class FrequencyViewModelValidator : BlazorFormValidator<FrequencyViewModel>
 {
     public FrequencyViewModelValidator()
     {

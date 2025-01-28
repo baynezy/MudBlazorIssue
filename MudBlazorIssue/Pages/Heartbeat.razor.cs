@@ -1,4 +1,5 @@
-﻿using FluentValidation.Results;
+﻿using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using MudBlazorIssue.Model;
@@ -9,6 +10,7 @@ namespace MudBlazorIssue.Pages;
 public partial class Heartbeat : ComponentBase
 {
     [Inject] private AddHeartbeatSettingViewModelValidator AddHeartbeatSettingViewModelValidator { get; set; } = null!;
+    [Inject] private FrequencyViewModelValidator FrequencyViewModelValidator { get; set; } = null!;
     private const Color SubmitButtonColor = Color.Primary;
     private const Color AddPesterButtonColor = Color.Secondary;
     private MudForm _form = null!;
@@ -19,7 +21,8 @@ public partial class Heartbeat : ComponentBase
     protected readonly AddHeartbeatSettingViewModel AddHeartbeatSettingViewModel = new();
     private bool IsSaving;
     
-    private bool HasGeneralErrors() => _generalErrors.Count > 0;private void HandleAddPester()
+    private bool HasGeneralErrors() => _generalErrors.Count > 0;
+    private void HandleAddPester()
     {
         AddHeartbeatSettingViewModel.Pester.Intervals.Add(new FrequencyViewModel());
     }
