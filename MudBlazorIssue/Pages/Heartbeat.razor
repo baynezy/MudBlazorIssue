@@ -1,4 +1,5 @@
 ﻿@page "/issue"
+@using System.Linq.Expressions
 
 <MudContainer MaxWidth="MaxWidth.Medium">
     <MudText
@@ -47,16 +48,24 @@
                 <MudText Typo="Typo.h5">Pester</MudText>
                 @if (AddHeartbeatSettingViewModel.Pester.Intervals.Count > 0)
                 {
-                    var frequencyCount = 0;
-                    foreach (var frequencyModel in AddHeartbeatSettingViewModel.Pester.Intervals)
+                    foreach (var parameters in
+                                 AddHeartbeatSettingViewModel
+                                     .Pester
+                                     .Intervals
+                                     .Select(frequencyModel => new Dictionary<string, object>
+                                     {
+                                         {nameof(FrequencySelector.ForFrequency), () => (Expression<Func<int>>)(() => frequencyModel.Value)},
+                                         {nameof(FrequencySelector.ForTimeUnit), () => (Expression<Func<int>>)(() => frequencyModel.TimeUnit)},
+                                         {nameof(FrequencySelector.Disabled), !AddHeartbeatSettingViewModel.IsEnabled},
+                                         {nameof(FrequencySelector.Frequency), frequencyModel.Value},
+                                         {nameof(FrequencySelector.FrequencyChanged), (Action<int>) (newValue => frequencyModel.Value = newValue)},
+                                         {nameof(FrequencySelector.TimeUnit), frequencyModel.TimeUnit},
+                                         {nameof(FrequencySelector.TimeUnitChanged), (Action<int>) (newValue => frequencyModel.TimeUnit = newValue)}
+                                     }))
                     {
-                        <FrequencySelector
-                            @key="@($"pester_{frequencyCount++}")"
-                            ForFrequency="() => frequencyModel.Value"
-                            ForTimeUnit="() => frequencyModel.TimeUnit"
-                            Disabled="@(!AddHeartbeatSettingViewModel.IsEnabled)"
-                            @bind-Frequency="@frequencyModel.Value"
-                            @bind-TimeUnit="@frequencyModel.TimeUnit"/>
+                        <DynamicComponent
+                            Type="typeof(FrequencySelector)"
+                            Parameters="parameters"/>
                     }
                 }
 
