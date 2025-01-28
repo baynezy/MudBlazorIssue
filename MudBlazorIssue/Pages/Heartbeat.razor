@@ -2,9 +2,7 @@
 @using System.Linq.Expressions
 
 <MudContainer MaxWidth="MaxWidth.Medium">
-    <MudText
-        Typo="Typo.h4">Configure Heartbeat
-    </MudText>
+    <MudText Typo="Typo.h4">Configure Heartbeat</MudText>
 </MudContainer>
 <MudPaper Class="px-4 pb-2 mt-5 rounded-lg">
     <MudForm @ref="_form"
@@ -54,13 +52,13 @@
                                      .Intervals
                                      .Select(frequencyModel => new Dictionary<string, object>
                                      {
-                                         {nameof(FrequencySelector.ForFrequency), () => (Expression<Func<int>>)(() => frequencyModel.Value)},
-                                         {nameof(FrequencySelector.ForTimeUnit), () => (Expression<Func<int>>)(() => frequencyModel.TimeUnit)},
+                                         {nameof(FrequencySelector.ForFrequency), (Expression<Func<int>>) (() => frequencyModel.Value)},
+                                         {nameof(FrequencySelector.ForTimeUnit), (Expression<Func<int>>) (() => frequencyModel.TimeUnit)},
                                          {nameof(FrequencySelector.Disabled), !AddHeartbeatSettingViewModel.IsEnabled},
                                          {nameof(FrequencySelector.Frequency), frequencyModel.Value},
-                                         {nameof(FrequencySelector.FrequencyChanged), (Action<int>) (newValue => frequencyModel.Value = newValue)},
+                                         {nameof(FrequencySelector.FrequencyChanged), EventCallback.Factory.Create<int>(this, value => frequencyModel.Value = value)},
                                          {nameof(FrequencySelector.TimeUnit), frequencyModel.TimeUnit},
-                                         {nameof(FrequencySelector.TimeUnitChanged), (Action<int>) (newValue => frequencyModel.TimeUnit = newValue)}
+                                         {nameof(FrequencySelector.TimeUnitChanged), EventCallback.Factory.Create<int>(this, value => frequencyModel.TimeUnit = value)}
                                      }))
                     {
                         <DynamicComponent
