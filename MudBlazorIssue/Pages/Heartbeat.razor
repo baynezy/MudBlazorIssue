@@ -45,29 +45,27 @@
 
             <MudItem xs="12">
                 <MudText Typo="Typo.h5">Pester</MudText>
-                @if (AddHeartbeatSettingViewModel.Pester.Intervals.Count > 0)
-                {
-                    var frequencyCount = 0;
-                    foreach (var frequencyModel in AddHeartbeatSettingViewModel.Pester.Intervals)
-                    {
-                        <FrequencySelector
-                            @key="@($"pester_{frequencyCount++}")"
-                            ForFrequency="() => frequencyModel.Value"
-                            ForTimeUnit="() => frequencyModel.TimeUnit"
-                            Disabled="@(!AddHeartbeatSettingViewModel.IsEnabled)"
-                            @bind-Frequency="@frequencyModel.Value"
-                            @bind-TimeUnit="@frequencyModel.TimeUnit"/>
-                    }
-                }
 
-                <MudButton
+                <FrequencySelector
+                    ForFrequency="() => AddHeartbeatSettingViewModel.Pester.Intervals[0].Value"
+                    ForTimeUnit="() => AddHeartbeatSettingViewModel.Pester.Intervals[0].TimeUnit"
                     Disabled="@(!AddHeartbeatSettingViewModel.IsEnabled)"
-                    StartIcon="@Icons.Material.Filled.AddCircle"
-                    Color="AddPesterButtonColor"
-                    Variant="Variant.Filled"
-                    Class="rounded-lg flex-initial"
-                    OnClick="@(() => HandleAddPester())"
-                >@_addPesterButtonLabel</MudButton>
+                    @bind-Frequency="@AddHeartbeatSettingViewModel.Pester.Intervals[0].Value"
+                    @bind-TimeUnit="@AddHeartbeatSettingViewModel.Pester.Intervals[0].TimeUnit"/>
+
+                <FrequencySelector
+                    ForFrequency="() => AddHeartbeatSettingViewModel.Pester.Intervals[1].Value"
+                    ForTimeUnit="() => AddHeartbeatSettingViewModel.Pester.Intervals[1].TimeUnit"
+                    Disabled="@(!AddHeartbeatSettingViewModel.IsEnabled)"
+                    @bind-Frequency="@AddHeartbeatSettingViewModel.Pester.Intervals[1].Value"
+                    @bind-TimeUnit="@AddHeartbeatSettingViewModel.Pester.Intervals[1].TimeUnit"/>
+
+                <FrequencySelector
+                    ForFrequency="() => AddHeartbeatSettingViewModel.Pester.Intervals[2].Value"
+                    ForTimeUnit="() => AddHeartbeatSettingViewModel.Pester.Intervals[2].TimeUnit"
+                    Disabled="@(!AddHeartbeatSettingViewModel.IsEnabled)"
+                    @bind-Frequency="@AddHeartbeatSettingViewModel.Pester.Intervals[2].Value"
+                    @bind-TimeUnit="@AddHeartbeatSettingViewModel.Pester.Intervals[2].TimeUnit"/>
             </MudItem>
 
             <MudItem xs="12">
