@@ -1,0 +1,47 @@
+﻿@using System.Linq.Expressions
+@using MudBlazorIssue.Model
+<label for="FrequencyValue">@_frequencyLabel</label>
+<InputNumber Value="@FrequencyValue"
+             ValueChanged="FrequencyValueChanged"
+             ValueExpression="@FrequencyValueExpression"
+             id="FrequencyValue"/>
+<ValidationMessage For="@(() => FrequencyValue)"/>
+
+<InputSelect
+    Value="@TimeUnitValue"
+    ValueChanged="@TimeUnitValueChanged"
+    ValueExpression="@TimeUnitValueExpression"
+    >
+    
+    @foreach (var timeUnit in TimeUnit.List)
+    {
+        <option value="@timeUnit.Value">@timeUnit.Name</option>
+    }
+</InputSelect>
+
+@code {
+    private string _frequencyLabel = TimeUnit.FromValue(0).ToString();
+
+    [Parameter, EditorRequired] public required int FrequencyValue { get; set; }
+
+    [Parameter] public EventCallback<int> FrequencyValueChanged { get; set; }
+
+    [Parameter] public Expression<Func<int>> FrequencyValueExpression { get; set; }
+    
+    [Parameter, EditorRequired] public required int TimeUnitValue { get; set; }
+    
+    [Parameter] public EventCallback<int> TimeUnitValueChanged { get; set; }
+    
+    [Parameter] public Expression<Func<int>> TimeUnitValueExpression { get; set; }
+    
+    
+    private void UpdateLabel()
+    {
+        Console.WriteLine("Time unit changed");
+        if (TimeUnit.TryFromValue(TimeUnitValue, out var timeUnit))
+        {
+            _frequencyLabel = timeUnit.ToString();
+            Console.WriteLine("bob");
+        }
+    }
+}

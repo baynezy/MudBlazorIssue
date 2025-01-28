@@ -17,16 +17,9 @@
             </MudItem>
         </MudGrid>
         <MudItem xs="12">
-            <label for="FrequencyValue">@_frequencyLabel</label>
-            <InputNumber @bind-Value="AddHeartbeatSettingViewModel.Frequency.Value" id="FrequencyValue"/>
-            <ValidationMessage For="@(() => AddHeartbeatSettingViewModel.Frequency.Value)" />
-
-            <InputSelect @bind-Value="AddHeartbeatSettingViewModel.Frequency.TimeUnit" @bind-Value:after="TimeUnitChanged">
-                @foreach (var timeUnit in Model.TimeUnit.List)
-                {
-                    <option value="@timeUnit.Value">@timeUnit.Name</option>
-                }
-            </InputSelect>
+            <AltFrequencySelector
+                @bind-FrequencyValue="AddHeartbeatSettingViewModel.Frequency.Value"
+                @bind-TimeUnitValue="AddHeartbeatSettingViewModel.Frequency.TimeUnit"/>
         </MudItem>
 
         <MudItem xs="12">
